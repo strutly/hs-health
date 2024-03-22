@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/task/orderTask"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "健康照护师",
+    "navigationBarTextStyle": "black"
+  },
+  "usingComponents": {
+    "topTips": "/components/tips/index"
+  },
+  "networkTimeout": {
+    "request": 30000
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
