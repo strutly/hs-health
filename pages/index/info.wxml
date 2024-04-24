@@ -1,0 +1,145 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<wxs module="tools" src="/utils/tools.wxs"></wxs>
+<form bindsubmit="submit">
+  <input name="province" hidden="true" value="{{userInfo.province}}"></input>
+  <input name="city" hidden="true" value="{{userInfo.city}}"></input>
+  <input name="district" hidden="true" value="{{userInfo.district}}"></input>
+  <view class="cu-form-group margin-top">
+    <text class="title" decode>姓&emsp;&emsp;名</text>
+    <input placeholder="姓名" bindblur="inputChange" data-name='userInfo.name' name="name" value="{{userInfo.name}}"></input>
+  </view>
+  <view class="cu-form-group">
+    <text class="title" decode>头&emsp;&emsp;像</text>
+    <input placeholder="头像" bind:tap="viewImage" disabled data-url="{{userInfo.pic}}" name="pic" value="{{userInfo.pic}}"></input>
+    <button class="cu-btn bg-green shadow" open-type="chooseAvatar" bindchooseavatar="chooseAvatra">上传</button>
+  </view>
+  <view class="cu-form-group">
+    <text class="title" decode>身份证号</text>
+    <input placeholder="身份证号" name="cardNo" type="idcard" bindblur="inputChange" data-name='userInfo.cardNo' value="{{userInfo.cardNo}}"></input>
+  </view>
+  <view class="cu-form-group">
+    <text class="title" decode>身份证照</text>
+    <input placeholder="身份证" data-url="{{userInfo.cardPic}}" name="cardPic" bindtap="viewImage" type="idcard" value="{{userInfo.cardPic}}" disabled></input>
+    <button class="cu-btn bg-green shadow" bindtap="addPic" data-target="userInfo.cardPic">上传</button>
+  </view>
+  <view class="cu-form-group">
+    <text class="title" decode>手&ensp;机&ensp;号</text>
+    <input placeholder="手机号" name="phone" disabled="true" value="{{userInfo.phone}}"></input>
+    
+  </view>
+
+  <view class="cu-form-group">
+    <text class="title" decode>性&emsp;&emsp;别</text>
+    <picker bindchange="pickerChange" data-type="sex"  name="sex" value="{{userInfo.sex}}" range="{{sexArr}}">
+      <view class="picker text-left">
+        {{userInfo.sex!=null?sexArr[userInfo.sex]:'请选择性别'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <text class="title" decode>学&emsp;&emsp;历</text>
+    <picker bindchange="pickerChange" data-type="education" name="education" value="{{userInfo.education}}" range="{{educationArr}}">
+      <view class="picker text-left">
+        {{userInfo.education!=null?educationArr[userInfo.education]:'请选择学历'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <text class="title" decode>省&ensp;市&ensp;区</text>
+    <picker mode="region" bindchange="regionChange">
+      <view class="picker">
+        {{userInfo.city?userInfo.province+'/'+userInfo.city+'/'+userInfo.district:'请选择省市区'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">详细地址</view>
+    <input placeholder="详细地址" bindblur="inputChange" data-name='userInfo.address' name="address" value="{{userInfo.address}}"></input>
+    <text class='cuIcon-locationfill text-orange' bindtap="chooseAddress"></text>
+  </view>
+  <view class="cu-form-group align-start solid-bottom">
+    <view class="title">个人简介</view>
+    <textarea maxlength="-1" name="des" placeholder="个人简介" value="{{userInfo.des}}"></textarea>
+  </view>
+  <picker hidden name="certificates" value="{{userInfo.certificates}}"></picker>
+  <checkbox-group class="block" name="types">
+    <view class="cu-form-group margin-top">
+      <view class="title"><text class="cuIcon-titles text-orange"></text> 服务类型</view>
+    </view>
+    <!-- #ifndef MP-ALIPAY -->
+    <view class="cu-form-group">
+      <view class="title">日常照护</view>
+      <radio class='round blue' name="types" value="0" checked="{{tools.includes(userInfo.types,0)}}"></radio>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">居家康健</view>
+      <checkbox class='round blue' name="types" value="1" checked="{{tools.includes(userInfo.types,1)}}"></checkbox>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">上门照护</view>
+      <checkbox class='round blue' name="types" value="2" checked="{{tools.includes(userInfo.types,2)}}"></checkbox>
+    </view>
+  </checkbox-group>
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">
+      个人证书
+    </view>
+    <view class="action">
+      <text class="cuIcon-add text-blue text-bold" bind:tap="addCertificate" data-name='certificate'></text>
+    </view>
+  </view>
+  
+
+  <view class="cu-form-group">
+    <view class="grid col-2 grid-square flex-sub margin-top">
+
+      <view class="certificate-box" wx:for="{{userInfo.certificates}}" wx:key="index">
+        <image src="{{item.src}}" mode="aspectFill" data-url="{{item.src}}" bindtap="viewImage"></image>
+        <view class="certificate-handle layui-btn-container padding-xs">
+          <view class="cu-btn sm bg-green radius" data-index="{{index}}" catchtap="editCertificate">
+            <text class="cuIcon-edit"></text>
+          </view>
+          <view class="cu-btn sm bg-red margin-left-xs radius" data-index="{{index}}" catchtap="removeCertificate">
+            <text class="cuIcon-delete"></text>
+          </view>
+        </view>
+        <view class="certificate-text text-cut">{{item.title}}</view>
+      </view>
+    </view>
+
+
+  </view>
+  <view class="padding flex flex-direction bg-white safe-bottom">
+    <button class="cu-btn bg-orange lg" form-type="submit">提交</button>
+  </view>
+
+</form>
+<view class="cu-modal {{modalcertificate?'show':''}}">
+  <form bindsubmit="submitCertificate">
+    <input hidden name="index" value='{{certificate.index}}'></input>
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">证书编辑</view>
+      </view>
+      <view class="">
+        <view class="cu-form-group">
+          <text class="title" decode>证书名称</text>
+          <input class="text-left" placeholder="证书名称" name="title" value="{{certificate.title}}"></input>
+        </view>
+        <view class="cu-form-group solids-bottom">
+          <text class="title" decode>证书照片</text>
+          <input class="text-left" data-url="{{certificate.src}}" bindtap="viewImage" placeholder="证书照片" name="src" value="{{certificate.src}}" disabled></input>
+          <button class="cu-btn bg-green shadow sm" bindtap="addPic" data-target="certificate.src">上传</button>
+        </view>
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-grey text-grey" bindtap="modalStatus" data-name="certificate">取消</button>
+          <button class="cu-btn bg-green margin-left" form-type="submit">确定</button>
+        </view>
+      </view>
+
+    </view>
+  </form>
+
+</view>

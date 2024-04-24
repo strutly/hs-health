@@ -1,0 +1,81 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<view class="cu-list menu">
+  <view class="cu-item">
+    <view class="content">
+      姓名
+    </view>
+    <view class="action">
+      {{consumer.name}}
+    </view>
+  </view>
+  <view class="cu-item" bind:tap="call" data-phone="{{consumer.phone}}">
+    <view class="content">
+      手机号码
+    </view>
+    <view class="action">
+      <text class="cuIcon-phone"></text>{{consumer.phone}}
+    </view>
+  </view>
+  <view class="cu-item arrow">
+    <view class="content">
+      住址
+    </view>
+    <view class="action" bind:tap="location" 
+      data-name="{{consumer.name}}"
+      data-latitude="{{consumer.latitude}}"
+      data-longitude="{{consumer.longitude}}"
+      data-scale="10"
+      data-address="{{consumer.address}}"
+      >
+      {{consumer.address}}
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      性别
+    </view>
+    <view class="action">
+      {{['未知','男','女'][consumer.sex]}}
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      身高
+    </view>
+    <view class="action">
+      {{consumer.height}}<text class="text-sm">cm</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      体重
+    </view>
+    <view class="action">
+      {{consumer.weight}}<text class="text-sm">kg</text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      血型
+    </view>
+    <view class="action">
+      {{consumer.bloodType}}
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      备注
+    </view>
+    <view class="action">
+      {{consumer.notes}}
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      类型
+    </view>
+    <view class="action">
+      {{['本人','伴侣','父母','子女','其他'][consumer.type]}}
+    </view>
+  </view>
+</view>

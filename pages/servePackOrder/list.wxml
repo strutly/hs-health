@@ -1,0 +1,58 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<view class="cu-list menu-avatar margin-top-sm">
+  <view class="cu-list menu card-menu" wx:for="{{orders}}" wx:key="index" wx:for-item="order">
+    <view class="cu-item arrow" data-handle="toUrl" data-href="/mobile/page/servePack/detail?id={{order.servePack.id}}">
+      <view class="content">
+        <image src="{{order.servePack.coverImg}}" style="width: 20px;height: 20px;" ></image> 套餐名称
+      </view>
+      <view class="action">
+        {{order.servePack.title}}
+      </view>
+    </view>
+    <view class="cu-item arrow" data-handle="toUrl" data-href="/mobile/page/consumer/edit?id={{order.consumer.id}}">
+      <view class="content">
+        照护对象
+      </view>
+      <view class="action">
+        {{order.consumer.name}}
+      </view>
+    </view>
+    <view class="padding-sm bg-white text-right">
+      <view class="cu-btn radius bg-green" bind:tap="handle" data-id="{{order.id}}">操作</view>
+    </view>
+  </view>
+</view>
+
+<view class="padding-xs flex align-center" wx:if="{{orders.length==0}}">
+  <view class="flex-sub text-center">
+    <view class="text-xsl padding">
+      <text class="cuIcon-info text-blue"></text>
+    </view>
+    <view class="padding">暂无订单确认信息</view>
+  </view>
+</view>
+
+
+<view class="cu-modal {{modalhandle?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">确认提示</view>
+    </view>
+    <view class="">
+      <form bindsubmit="submit">
+      <input hidden name="id" value="{{formData.id}}"></input>
+
+        <view class="cu-form-group align-start text-left solids-bottom">
+          <view class="title">接单建议</view>
+          <textarea maxlength="-1" name="suggest" placeholder="接单建议"></textarea>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+          <view class="action">
+            <button class="cu-btn line-green text-green" bindtap="modalStatus" data-name="handle">取消</button>
+            <button class="cu-btn bg-green margin-left" formType="submit">确定</button>
+          </view>
+        </view>
+      </form>
+    </view>
+  </view>
+</view>

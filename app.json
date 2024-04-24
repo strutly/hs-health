@@ -1,13 +1,35 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/task/orderTask"
+    "pages/task/orderTask",
+    "pages/index/reg",
+    "pages/index/my",
+    "pages/appointment/list",
+    "pages/task/list",
+    "pages/servePack/detail",
+    "pages/consumer/detail",
+    "pages/servePackOrder/list",
+    "pages/calendar/index",
+    "pages/index/info",
+    "pages/consumer/list",
+    "pages/consumer/form"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "健康照护师",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/index/my"
+      }
+    ]
   },
   "usingComponents": {
     "topTips": "/components/tips/index"
@@ -16,5 +38,8 @@
     "request": 30000
   },
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "requiredPrivateInfos": [
+    "choosePoi",
+    "chooseLocation"
+  ]
 }

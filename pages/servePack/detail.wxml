@@ -1,0 +1,59 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<image style="width: 100%;" src="{{pack.coverImg}}" mode="widthFix"></image>
+<view class="cu-bar bg-white solid-bottom margin-top" style="align-items: baseline;">
+  <view class="action padding-tb">
+    {{pack.title}}
+  </view>
+  <view class="action text-orange">
+    ¥{{pack.showPrice}}
+  </view>
+</view>
+<view class="text-gray bg-white padding">
+  {{pack.des}}
+</view>
+<view class="cu-bar bg-white solid-bottom margin-top">
+  <view class="action">
+    <text class="cuIcon-title text-orange"></text> 服务类型
+  </view>
+  <view class="action">
+    {{pack.serveType}}
+  </view>
+</view>
+<view class="cu-bar bg-white solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-orange"></text> 服务模式
+  </view>
+  <view class="action">
+    {{pack.mold==0?'按次':'按日'}}
+  </view>
+</view>
+<view class="cu-bar bg-white solid-bottom">
+  <view class="action">
+    <text class="cuIcon-titles text-orange"></text> 服务项目
+  </view>
+</view>
+<view class="flex bg-white solid-bottom padding">
+  <view class="flex-twice  text-left">服务名称</view>
+  <view class="margin-lr-sm flex-treble text-center">介绍</view>
+  <view class="item-des"></view>
+</view>
+<view class="flex bg-white solid-bottom padding" wx:for="{{pack.serveItemList}}" wx:key="index">
+  <view class="flex-twice  text-left">{{item.title}}</view>
+  <view class="margin-lr-sm flex-treble text-center text-cut">{{item.des}}</view>
+  <view class="item-des cuIcon-info" bind:tap="showDes" data-des="{{item.des}}"></view>
+</view>
+
+
+<view class="cu-modal {{modaldes?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">服务介绍</view>
+      <view class="action" bind:tap="modalStatus" data-name="des">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl text-left">
+      {{des}}
+    </view>
+  </view>
+</view>

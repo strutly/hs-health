@@ -74,9 +74,14 @@ var timeago = function (time) {
   }
   return time;
 }
+function includes(arr=[],item){
+  if(arr==null) return false;
+  return arr.indexOf(item+"")>-1;
+}
 
 
 module.exports = {
   formatDate: formatDate,
-  timeago:timeago
+  timeago:timeago,
+  includes:includes
 };

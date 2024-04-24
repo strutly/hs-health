@@ -6,18 +6,10 @@ App({
       console.log(res);
       setTimeout(function () {
         that.globalData.login = true;
-        if (res.code == 0) {
-          if (res.data.login) {
-            wx.setStorageSync('token', res.data.token);
-            wx.setStorageSync('userInfo', res.data.info);
-          } else {
-            wx.removeStorageSync('token');
-            wx.removeStorageSync('userInfo');
-          }
-          that.globalData.msg = res.data.msg;
-          that.globalData.status = { login: res.data.login, auth: res.data.auth };
-        }
+        that.globalData.status = {code:res.code, msg:res.msg,login: (res.data?res.data.login:false), auth: (res.data?res.data.auth:false)};
       }, 100);
+    },err=>{
+      console.log(err);
     })
   },
   globalData: {
@@ -38,6 +30,7 @@ App({
           method(value);
         },
         get: function () {
+          console.log(this);
           return this._status;
         }
       })

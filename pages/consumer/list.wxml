@@ -1,0 +1,35 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<view class="cu-bar bg-white search ">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input bindconfirm="submit" type="text" placeholder="姓名" confirm-type="search"></input>
+  </view>
+</view>
+<view class="cu-list menu sm-border">
+  <view bindtap="{{moveIndex!=index?'toUrl':''}}" data-url="/pages/consumer/detail?id={{item.id}}" class="cu-item {{moveIndex==index?'move-cur':''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{consumers}}" wx:key="index">
+    <view class="content padding-tb-sm">
+      <view>
+        {{item.name}}
+      </view>
+      <view class="text-gray text-sm">
+        {{item.phone}}
+      </view>
+    </view>
+    <view class="action text-right">
+      <text class="lg text-{{item.sex==1?'blue':'red'}} cuIcon-{{item.sex==1?'male':'female'}}"></text>
+      <view>{{item.age}}</view>
+    </view>
+    <view class="move">
+      <view class="bg-grey" bindtap="toUrl" data-url="/pages/consumer/form?id={{item.id}}">评价</view>
+    </view>
+  </view>
+
+</view>
+<view class="padding-xs flex align-center" wx:if="{{consumers.length==0}}">
+  <view class="flex-sub text-center">
+    <view class="text-xsl padding">
+      <text class="cuIcon-info text-main"></text>
+    </view>
+    <view class="padding">暂无相关信息</view>
+  </view>
+</view>

@@ -10,6 +10,20 @@
     "miniprogram": {
       "list": [
         {
+          "name": "我的",
+          "pathName": "pages/index/my",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "注册",
+          "pathName": "pages/index/reg",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/task/orderTask",
           "pathName": "pages/task/orderTask",
           "query": "",

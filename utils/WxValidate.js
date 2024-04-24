@@ -56,6 +56,7 @@ class WxValidate {
               min: this.formatTpl('请输入不小于 {0} 的数值。'),
               max: this.formatTpl('请输入不大于 {0} 的数值。'),
               range: this.formatTpl('请输入范围在 {0} 到 {1} 之间的数值。'),
+              size:this.formatTpl('数组长度至少为{0}'),
           }
       }
   }
@@ -70,7 +71,6 @@ class WxValidate {
            * 验证必填元素
            */
           required(value, param) {
-              
               if (!that.depend(param)) {
                   return 'dependency-mismatch'
               } else if (typeof value === 'number') {
@@ -186,6 +186,9 @@ class WxValidate {
           range(value, param) {
               return that.optional(value) || (value >= param[0] && value <= param[1])
           },
+          size(value,param){
+            return Array.isArray(value) && value.length>=param;
+          }
       }
   }
 

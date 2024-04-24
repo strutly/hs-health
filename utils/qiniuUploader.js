@@ -68,7 +68,9 @@
 
       doUpload(filePath, success, fail, options, progress, cancelTask);
     } else if (config.qiniuUploadTokenURL) {
-      getQiniuToken(function () {
+      getQiniuToken(function (res) {
+        options.key = res.key+".jpg";
+        console.log("新的options:",options)
         doUpload(filePath, success, fail, options, progress, cancelTask);
       });
     } else if (config.qiniuUploadTokenFunction) {
@@ -93,7 +95,7 @@
     }
     var url = uploadURLFromRegionCode(config.qiniuRegion);
     var fileName = filePath.split('//')[1];
-
+    console.log("options:",options)
     // 自定义上传key（即自定义上传文件名）。通过修改qiniuUploader.upload方法传入的options参数，可以进行自定义文件名称。如果options非空，则使用options中的key作为fileName
     if (options && options.key) {
       fileName = options.key;
@@ -176,11 +178,15 @@
         'token': config.serverToken
       },
       success: function (res) {
+        console.log(res)
         var token = res.data.data;
-        if (token && token.length > 0) {
-          config.qiniuUploadToken = token;
+
+        console.log("config:",config);
+
+        if (token.token && token.token.length > 0) {
+          config.qiniuUploadToken = token.token;
           if (callback) {
-            callback();
+            callback(token);
           }
         } else {
           console.error('qiniuUploader cannot get your token, please check the uptokenURL or server')

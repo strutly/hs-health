@@ -6,20 +6,15 @@ const CustomPage = function (page) {
       onLoad(options) {
         this.setData({
           options: options,
-          dTypes: { 1: 'diabetes', 2: 'respiratory' }
         });
         page.onLoad && page.onLoad.call(this, options)
       },
       onReady() {
-        console.log(2)
-        this.setData({
-          userInfo: wx.getStorageSync('userInfo')
-        })
         page.onReady && page.onReady.call(this)
       },
       toUrl(e) {
         let that = this;
-        console.log(e)
+        console.log("toUrl")
         getApp().watch(function (value) {
           console.log(value)
           /*
@@ -72,10 +67,8 @@ const CustomPage = function (page) {
         })
       },
       getCode() {
-        console.log(12)
         let phone = this.data.phone;
         let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-        console.log(reg.test(phone));
         if (!reg.test(phone)) return this.showTips("请输入正确的手机号");
         Api.getPhoneCode({
           phone: phone
@@ -112,13 +105,13 @@ const CustomPage = function (page) {
           })
         } else {
           wx.reLaunch({
-            url: '/pages/index/home',
+            url: '/pages/index/index',
           })
         }
       },
       home() {
         wx.reLaunch({
-          url: '/pages/index/home',
+          url: '/pages/index/index',
         })
       },
       viewImage(e) {
@@ -167,12 +160,11 @@ const CustomPage = function (page) {
             });
             file = newFile;
           }
-          files.push(fileManager.readFileSync(file.tempFilePath, 'base64'))
+          files.push(file)
         }
         return files;
       }
     })
   )
 }
-
 export default CustomPage

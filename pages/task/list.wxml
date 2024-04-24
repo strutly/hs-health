@@ -1,0 +1,103 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<!--
+<view class="bg-white nav">
+  <view class="flex text-center">
+    <view class="cu-item flex-sub {{tabIndex==index?'text-blue cur':''}}" wx:for="{{navs}}" wx:key="index" bind:tap="navChange" data-status="{{item.status}}" data-index="{{index}}">
+      {{item.title}}
+    </view>
+  </view>
+</view>
+-->
+<view class="flex padding align-center bg-white solids-top">
+  <view class="flex-sub"></view>
+  <text class="cuIcon-back margin-right text-blue text-bold" bind:tap="dayChange" data-add="-1"></text>
+  <text>{{startDate}}</text>
+  <text class="cuIcon-right margin-left text-blue text-bold" bind:tap="dayChange" data-add="1"></text>
+  <view class="flex-sub"></view>
+</view>
+
+<view class="cu-list menu-avatar margin-top-sm">
+  <view class="cu-list menu card-menu" wx:for="{{records}}" wx:key="index" wx:for-item="record">
+    <view class="cu-item solids-bottom">
+      <view class="content">
+        预约状态
+      </view>
+      <view class="action">
+        <span class="cu-tag {{bgs[record.status]}} round">{{['待服务','已服务','已评论','已过期'][record.status]}}</span>
+      </view>
+    </view>
+    <view class="cu-item arrow"  bind:tap="toUrl" data-url="/pages/servePack/detail?id={{record.servePack.id}}">
+      <view class="content">
+        <image src="{{record.servePack.coverImg}}" style="width: 20px;height: 20px;" ></image> 套餐名称
+      </view>
+      <view class="action">
+        {{record.servePack.title}}
+      </view>
+    </view>
+    <view class="cu-item arrow" bind:tap="toUrl" data-url="/pages/consumer/detail?id={{record.consumer.id}}">
+      <view class="content">
+        照护对象
+      </view>
+      <view class="action">
+        {{record.consumer.name}}
+      </view>
+    </view>
+
+    <view class="padding-sm bg-white text-right" wx:if="{{record.status==0 && record.startDay==today}}">
+      <view class="cu-btn radius bg-green" bind:tap="toUrl" data-url="/pages/task/orderTask?id={{record.id}}">提交服务记录</view>
+    </view>
+    <view class="padding-sm bg-white text-right" wx:if="{{record.status==1}}">
+      <view class="cu-btn radius bg-green" bind:tap="handle" data-id="{{record.id}}">评论</view>
+    </view>
+  </view>
+</view>
+
+<view class="padding-xs flex align-center" wx:if="{{records.length==0}}">
+  <view class="flex-sub text-center">
+    <view class="text-xsl padding">
+      <text class="cuIcon-info text-blue"></text>
+    </view>
+    <view class="padding">今日无预约信息</view>
+  </view>
+</view>
+
+
+<view class="cu-modal {{modalhandle?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">确认提示</view>
+    </view>
+    <view class="">
+      <form bindsubmit="submit">
+      <input hidden name="id" value="{{formData.id}}"></input>
+        <view class="cu-form-group">
+          <view class="title">是否接单</view>
+          <picker bindchange="pickerChange" name="status" data-name="status" value="{{statusArr[formData.status].value}}" range-key="title" range="{{statusArr}}">
+            <view class="picker">
+              {{formData.status!=null?statusArr[formData.status].title:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group" wx:if="{{formData.status==0}}">
+          <view class="title">开始日期</view>
+          <picker mode="date" bindchange="pickerChange" start="{{today}}" name="startDay" value="{{formData.startDay}}" data-name="startDay">
+            <view class="picker">
+              {{formData.startDay!=null?formData.startDay:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group align-start text-left solids-bottom" wx:if="{{formData.status==1}}">
+          <view class="title">拒接原因</view>
+          <textarea maxlength="-1" name="suggest" placeholder="拒接原因"></textarea>
+        </view>
+        <view class="cu-bar bg-white justify-end">
+          <view class="action">
+            <button class="cu-btn line-green text-green" bindtap="modalStatus" data-name="handle">取消</button>
+            <button class="cu-btn bg-green margin-left" formType="submit">确定</button>
+          </view>
+        </view>
+      </form>
+    </view>
+
+  </view>
+</view>

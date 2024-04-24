@@ -1,0 +1,23 @@
+.grid-box {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 一行7列 */
+  background-color: #f0f0f0; /* 背景颜色 */
+}
+/* 栅格元素样式 */
+.grid {
+  display: flex;
+  align-items: center; /* 垂直居中对齐 */
+  justify-content: center; /* 水平居中对齐 */
+  background-color: #fff; /* 背景颜色 */  
+  height: 10vh; /* 高度*/
+  font-weight: bold; /* 加粗字体 */
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+  cursor: pointer; /* 鼠标悬停效果 */
+  transition: background-color 0.3s, box-shadow 0.3s; /* 过渡效果 */
+  position: relative;
+}
+.grid-tag{
+  position: absolute;
+  top: 0;
+  right: 0;
+}

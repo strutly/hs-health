@@ -1,0 +1,69 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<view class="flex padding align-center bg-white solids-top">
+  <view class="flex-sub"></view>
+  <text class="cuIcon-back margin-right text-blue text-bold" bind:tap="monthChange" data-add="-1"></text>
+  <text>{{month}}</text>
+  <text class="cuIcon-right margin-left text-blue text-bold" bind:tap="monthChange" data-add="1"></text>
+  <view class="flex-sub margin-left flex align-center">
+    <text class="cu-tag sm bg-yellow margin-right-xs round"></text>
+    <text>预约</text>
+    <text class="cu-tag sm bg-green margin-right-xs round"></text>
+    <text>服务订单</text> 
+  </view>
+</view>
+<view class="bg-white margin-top grid-box">
+  <view class="grid grid-title">
+        周一
+    </view>
+    <view class="grid grid-title">
+        周二
+    </view>
+    <view class="grid grid-title">
+        周三
+    </view>
+    <view class="grid grid-title">
+        周四
+    </view>
+    <view class="grid grid-title">
+        周五
+    </view>
+    <view class="grid grid-title">
+        周六
+    </view>
+    <view class="grid grid-title">
+        周日
+    </view>
+    <view class="grid" wx:for="{{lists}}" wx:key="index" bind:tap="showDay" data-appointments="{{item.appointmentSize}}"  data-records="{{item.recordSize}}" data-day="{{item.day?month+'-'+(item.day>9?item.day:'0'+item.day):''}}">
+        {{item.day?item.day:''}} 
+        <view class="grid-tag">
+          <text class="cu-tag sm bg-yellow text-white" wx:if="{{item.appointmentSize>0}}">{{item.appointmentSize}}</text>
+          <text class="cu-tag sm bg-green text-white margin-left-xs" wx:if="{{item.recordSize>0}}">{{item.recordSize}}</text>
+        </view>
+    </view>
+</view>
+
+<view class="cu-modal {{modalJump?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">请选择需要显示的列表</view>
+    </view>
+    <view class="cu-list menu">
+      <view class="cu-item arrow">
+					<view class="content text-left" bind:tap="toUrl" data-url="/pages/appointment/list?appointmentTime={{day}}">
+						预约列表
+					</view>
+				</view>
+        <view class="cu-item arrow" bind:tap="toUrl" data-url="/pages/task/list?startDate={{day}}">
+					<view class="content text-left">
+						服务列表
+					</view>
+				</view>
+      
+        <view class="cu-bar bg-white justify-end">
+          <view class="action">
+            <button class="cu-btn line-grey text-grey" bindtap="modalStatus" data-name="Jump">取消</button>
+          </view>
+        </view>
+    </view>
+  </view>
+</view>

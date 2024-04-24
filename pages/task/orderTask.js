@@ -1,66 +1,67 @@
-// pages/task/orderTask.js
-Page({
+const app = getApp()
+var that;
+import Api from '../../config/api';
+import Util from '../../utils/util';
+import WxValidate from '../../utils/WxValidate';
+import CustomPage from '../../CustomPage';
+CustomPage({
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    record:{}
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad(options) {
-
+    that = this;
+    that.initValidate();
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady() {
 
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
+  initValidate() {
+    let rules = {      
+      serveItems: {
+        size: 1
+      },
+      serveContent: {
+        required: true
+      },
+    }, messages = {
+      serveItems: {
+        size: "请选择完成的项目"
+      },
+      serveContent: {
+        required: "请填写具体服务内容"
+      },
+    };
+    that.WxValidate = new WxValidate(rules, messages);
+  },
   onShow() {
-
+    Api.serveRecordDetail({id:that.data.options.id}).then(res=>{
+      console.log(res);
+      that.setData({
+        record:res.data
+      })
+    },err=>{
+      that.showTips(err.msg);
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  submit(e){
+    console.log(e)
+    let data = e.detail.value;
+    if (!that.WxValidate.checkForm(data)) {
+      console.log(that.WxValidate)
+      let error = that.WxValidate.errorList[0]
+      that.showTips(error.msg)
+      return false;
+    }
+    Api.serveRecordUpdate(data).then(res=>{
+      console.log(res);
+      that.showTips("提交成功","success");
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 1500);
+    },err=>{
+      that.showTips(err.msg);
+    })
   }
+  
 })

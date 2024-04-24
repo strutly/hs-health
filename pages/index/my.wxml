@@ -1,0 +1,52 @@
+<topTips errorShow="{{errorShow}}" errorMsg="{{errorMsg}}" errorType="{{errorType}}"></topTips>
+<view class="padding bg-white margin-top flex align-center" bind:tap="toUrl" data-url="/pages/index/info">
+  <image class="round head-img" src="{{userInfo.pic||'/images/head.png'}}"></image>
+  <view class="flex-sub margin-left">
+    <view class="">{{userInfo.name||'未知'}}
+      <text class="cu-tag bg-green margin-left radius" wx:if="{{userInfo}}">{{userInfo.status==0?'审核中':'已挂靠'}}</text>
+      <text class="cu-tag bg-grey margin-left radius" wx:else>未注册</text>
+
+    </view>
+    <view class="margin-top-sm">{{userInfo.phone}}</view>
+  </view>
+  <view class=" text-xxl">
+    <text class="cuIcon-right"></text>
+  </view>
+</view>
+<view class="cu-list menu margin-top">
+  <view class="cu-item ">
+    <view class="content">
+      <text class="cuIcon-info"></text>
+      接单状态
+    </view>
+    <view>
+      <switch bindchange="statusChange" checked="{{userInfo.orderStatus==0}}"></switch>
+    </view>
+  </view>
+  <view class="cu-item arrow">
+    <view class="content">
+      <text class="cuIcon-service"></text>
+      派遣管理
+    </view>
+  </view>
+  <view class="cu-item arrow" bind:tap="toUrl" data-url="/pages/consumer/list">
+    <view class="content">
+      <text class="cuIcon-friend"></text>
+      照护对象管理
+    </view>
+  </view>
+  <view class="cu-item arrow">
+    <view class="content">
+      <text class="cuIcon-pay"></text>
+      收入管理
+    </view>
+  </view>
+  <view class="cu-item arrow">
+    <view class="content">
+      <text class="cuIcon-rank"></text>
+      统计信息
+    </view>
+  </view>
+</view>
+
+<tabBar selected="1"></tabBar>
