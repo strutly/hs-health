@@ -7,25 +7,38 @@ CustomPage({
   data: {
     sexArr:[{title:"男",value:1},{title:"女",value:2}],
     educationArr:['初中','中专','大专','高中','本科','研究生','博士','其他'],
+    levelArr:["","","Ⅱ","Ⅲ","Ⅳ","Ⅴ"],
     formData:{certificates:[]},
     orgs:[],
     errorMsg:'',
     errorShow:false,
-    errorType:'info'
+    errorType:'info',
+    bgs:['bg-cyan','bg-blue','bg-yellow text-white','bg-orange','bg-purple']
   },
   onLoad(options) {
     that = this;
     that.initValidate();
   },
   onReady() {
-    Api.getAllAgencyOrg().then(res=>{
-      console.log(res);
+    let orgs = Api.getAllAgencyOrg();
+    let tags = Api.getAllTagLabel();
+    Promise.all([orgs,tags]).then(arrRes=>{
+      let tags =arrRes[1].data.map(tag=>{
+        console.log(tag)
+        let choose = [];
+        for(let i=0;i<tag.maxLevel;i++){
+          choose.push({label:(i+1)+"级",level:(i+1),title:tag.title});
+        }
+        tag.choose = choose;
+        return tag;
+      })
       that.setData({
-        orgs:res.data
+        orgs:arrRes[0].data,
+        tags:tags
       })
     },err=>{
       that.showTips(err.msg);
-    })
+    });    
   },
   initValidate() {
     let rules = {
@@ -62,6 +75,12 @@ CustomPage({
       },
       des: {
         required: true
+      },
+      tagList: {
+        size: 1
+      },
+      types: {
+        size: 1
       },
       certificates:{
         size: 1
@@ -101,6 +120,12 @@ CustomPage({
       des: {
         required: "请输入简介信息"
       },
+      tagList: {
+        size: "请至少选择或输入一个个人标签"
+      },
+      types: {
+        size: "请至少选择一个服务类型"
+      },
       certificates:{
         size: "请至少上传一个个人证书"
       }
@@ -122,6 +147,27 @@ CustomPage({
       formData:formData
     })
   },
+  tagChange(e){
+    console.log(e);
+    let formData = that.data.formData;
+    let tagList = formData.tagList||[];
+    let tags = that.data.tags;
+    let index = e.currentTarget.dataset.index;
+    let val = e.detail.value;
+    let tag = tags[index].choose[val];
+    console.log(tag);
+    let i = tagList.findIndex(t=>t.title==tag.title);
+    if(i>-1){
+      tagList[i] = {...tag,ifPass:false};
+    }else{
+      tagList.push({...tag,ifPass:false});
+    }
+    formData.tagList = tagList;
+    that.setData({
+      formData:formData
+    })
+  },
+
   regionChange(e){
     console.log(e);
     let formData = that.data.formData;
@@ -165,9 +211,6 @@ CustomPage({
       })
     }
   },
-  showCardNo(e){
-    console.log(e)
-  },
   chooseAvatra(e){
     console.log(e);    
     Api.uploadFile(e.detail.avatarUrl,false).then(res=>{
@@ -196,11 +239,12 @@ CustomPage({
       modalcertificate:true
     })
   },
-  removeCertificate(e){
+  remove(e){
     let index = e.currentTarget.dataset.index;
+    let type = e.currentTarget.dataset.type;
     let formData = that.data.formData;
-    let certificates = formData.certificates;
-    certificates.splice(index,1);
+    let datas = formData[type];
+    datas.splice(index,1);
     that.setData({
       formData:formData
     })
@@ -218,6 +262,27 @@ CustomPage({
       certificate:{},
       modalcertificate:false
     })
+  },
+  submitTag(e){
+    console.log(e);
+    let title = e.detail.value.title;
+    if(!title) return that.showTips("请输入标签");
+    let formData = that.data.formData;
+    let tagList = formData.tagList||[];
+    let i = tagList.findIndex(t=>t.title==title);
+    if(i>-1) {
+      that.setData({
+        modaltag:false
+      })
+      return;
+    }
+    tagList.push({title,level:1,ifPass:true});
+    formData.tagList = tagList;
+    that.setData({
+      formData:formData,
+      modaltag:false
+    })
+
   },
   addPic(e){
     console.log(e)

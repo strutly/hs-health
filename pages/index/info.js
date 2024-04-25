@@ -21,15 +21,26 @@ CustomPage({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-    Api.caregiverInfo().then(res=>{
-      console.log(res);
+    let info = Api.caregiverInfo();
+    let tags = Api.getAllTagLabel();
+
+    Promise.all([info,tags]).then(arrRes=>{
+      let tags =arrRes[1].data.map(tag=>{
+        console.log(tag)
+        let choose = [];
+        for(let i=0;i<tag.maxLevel;i++){
+          choose.push({label:(i+1)+"级",level:(i+1),title:tag.title});
+        }
+        tag.choose = choose;
+        return tag;
+      })
       that.setData({
-        userInfo:res.data
+        userInfo:arrRes[0].data,
+        tags:tags
       })
     },err=>{
       that.showTips(err.msg);
-    })
-
+    }); 
   },
   initValidate() {
     let rules = {
@@ -64,6 +75,12 @@ CustomPage({
       },
       des: {
         required: true
+      },
+      tagList: {
+        size: 1
+      },
+      types: {
+        size: 1
       },
       certificates:{
         size: 1
@@ -100,6 +117,12 @@ CustomPage({
       },
       des: {
         required: "请输入简介信息"
+      },
+      tagList: {
+        size: "请至少选择或输入一个个人标签"
+      },
+      types: {
+        size: "请至少选择一个服务类型"
       },
       certificates:{
         size: "请至少上传一个个人证书"
@@ -150,11 +173,8 @@ CustomPage({
   async getPhoneNumber(e){
     console.log(e);
     if (e.detail.errMsg === "getPhoneNumber:ok") {
-      let code = await Api.getCode();
       Api.getPhoneNumber({
-        encryptedData: e.detail.encryptedData,
-        code: code,
-        iv: e.detail.iv
+        code: e.detail.code
       }).then(res=>{
         console.log("success",res);
         that.setData({
@@ -165,8 +185,41 @@ CustomPage({
       })
     }
   },
-  showCardNo(e){
-    console.log(e)
+  tagChange(e){
+    console.log(e);
+    let userInfo = that.data.userInfo;
+    let tagList = userInfo.tagList||[];
+    let tags = that.data.tags;
+    let index = e.currentTarget.dataset.index;
+    let val = e.detail.value;
+    let tag = tags[index].choose[val];
+    console.log(tag);
+    let i = tagList.findIndex(t=>t.title==tag.title);
+    if(i>-1){
+      tagList[i] = {...tag,ifPass:false};
+    }else{
+      tagList.push({...tag,ifPass:false});
+    }
+    userInfo.tagList = tagList;
+    that.setData({
+      userInfo:userInfo
+    })
+  },
+  submitTag(e){
+    console.log(e);
+    let title = e.detail.value.title;
+    if(!title) return that.showTips("请输入标签");
+    let userInfo = that.data.userInfo;
+    let tagList = userInfo.tagList||[];
+    let i = tagList.findIndex(t=>t.title==title);
+    if(i>-1) return that.showTips("已存在同名标签")
+    tagList.push({title,level:1,ifPass:true});
+    userInfo.tagList = tagList;
+    that.setData({
+      userInfo:userInfo,
+      modaltag:false
+    })
+
   },
   chooseAvatra(e){
     console.log(e);    
@@ -196,11 +249,12 @@ CustomPage({
       modalcertificate:true
     })
   },
-  removeCertificate(e){
+  remove(e){
     let index = e.currentTarget.dataset.index;
+    let type = e.currentTarget.dataset.type;
     let userInfo = that.data.userInfo;
-    let certificates = userInfo.certificates;
-    certificates.splice(index,1);
+    let datas = userInfo[type];
+    datas.splice(index,1);
     that.setData({
       userInfo:userInfo
     })

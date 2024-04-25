@@ -20,3 +20,22 @@
   background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
 }
+.bg1 {
+  background-color: #16baaa;
+}
+
+.bg2 {
+  background-color: #1e9fff;
+}
+
+.bg3 {
+  background-color: #ffb800;
+}
+
+.bg4 {
+  background-color: #ff5722;
+}
+
+.bg5 {
+  background-color: #a233c6;
+}

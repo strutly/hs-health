@@ -61,7 +61,37 @@
     <view class="title">个人简介</view>
     <textarea maxlength="-1" name="des" placeholder="个人简介" value="{{userInfo.des}}"></textarea>
   </view>
-  <picker hidden name="certificates" value="{{userInfo.certificates}}"></picker>
+
+  <view class="cu-bar bg-white margin-top solid-bottom">
+    <view class="action">
+      <text class="cuIcon-titles text-orange"></text>个人标签
+    </view>
+    <view class="action">
+      <text class="cuIcon-add text-blue text-bold" bind:tap="modalStatus" data-name='tag'></text>
+    </view>
+  </view>
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">已有标签
+    </view>
+    <view class="action flex flex-wrap">
+      <view bind:tap="remove" data-type="tagList" data-index="{{index}}" class="cu-tag round text-white bg{{item.level}} light" wx:for="{{userInfo.tagList}}">{{item.title}}{{levelArr[item.level]}}<text class="cuIcon-close"></text>
+      </view>
+    </view>
+    <picker value="{{userInfo.tagList||[]}}" name="tagList" hidden></picker>
+  </view>
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">可选标签
+    </view>
+    <view class="action flex flex-wrap">
+      <picker  wx:for="{{tags}}" bindchange="tagChange" data-index="{{index}}" range-key="label" range="{{item.choose}}">
+        {{item.title}}<text class="cuIcon-right"></text>
+      </picker>
+    </view>
+  </view>
+
+
+
+  <picker hidden name="certificates" value="{{userInfo.certificates||[]}}"></picker>
   <checkbox-group class="block" name="types">
     <view class="cu-form-group margin-top">
       <view class="title"><text class="cuIcon-titles text-orange"></text> 服务类型</view>
@@ -69,7 +99,7 @@
     <!-- #ifndef MP-ALIPAY -->
     <view class="cu-form-group">
       <view class="title">日常照护</view>
-      <radio class='round blue' name="types" value="0" checked="{{tools.includes(userInfo.types,0)}}"></radio>
+      <checkbox class='round blue' name="types" value="0" checked="{{tools.includes(userInfo.types,0)}}"></checkbox>
     </view>
     <view class="cu-form-group">
       <view class="title">居家康健</view>
@@ -80,7 +110,7 @@
       <checkbox class='round blue' name="types" value="2" checked="{{tools.includes(userInfo.types,2)}}"></checkbox>
     </view>
   </checkbox-group>
-  <view class="cu-bar bg-white solid-bottom">
+  <view class="cu-bar bg-white margin-top solid-bottom">
     <view class="action">
       个人证书
     </view>
@@ -135,6 +165,31 @@
       <view class="cu-bar bg-white justify-end">
         <view class="action">
           <button class="cu-btn line-grey text-grey" bindtap="modalStatus" data-name="certificate">取消</button>
+          <button class="cu-btn bg-green margin-left" form-type="submit">确定</button>
+        </view>
+      </view>
+
+    </view>
+  </form>
+
+</view>
+
+<view class="cu-modal {{modaltag?'show':''}}">
+  <form bindsubmit="submitTag">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">个人标签添加</view>
+      </view>
+      <view class="">
+        <view class="cu-form-group">
+          <text class="title" decode>标签名称</text>
+          <input class="text-left" placeholder="标签名称" name="title" value="{{certificate.title}}"></input>
+        </view>
+        
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-grey text-grey" bindtap="modalStatus" data-name="tag">取消</button>
           <button class="cu-btn bg-green margin-left" form-type="submit">确定</button>
         </view>
       </view>

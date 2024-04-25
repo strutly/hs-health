@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "tabBar":"/components/tab-bar/index"
+    "tabBar":"/components/tab-bar/index",
+    "auth":"/components/auth-modal/index"
   }
 }

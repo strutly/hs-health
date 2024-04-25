@@ -67,6 +67,34 @@
     <view class="title">个人简介</view>
     <textarea bindblur="inputChange" data-name='formData.des' maxlength="-1" name="des" placeholder="个人简介"></textarea>
   </view>
+
+  <view class="cu-bar bg-white margin-top solid-bottom">
+    <view class="action">
+      <text class="cuIcon-titles text-orange"></text>个人标签
+    </view>
+    <view class="action">
+      <text class="cuIcon-add text-blue text-bold" bind:tap="modalStatus" data-name='tag'></text>
+    </view>
+  </view>
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">已有标签
+    </view>
+    <view class="action flex-wrap">
+      <view bind:tap="remove" data-type="tagList" data-index="{{index}}" class="cu-tag round text-white bg{{item.level}} light" wx:for="{{formData.tagList}}">{{item.title}}{{levelArr[item.level]}}<text class="cuIcon-close"></text>
+      </view>
+    </view>
+    <picker value="{{formData.tagList}}" name="tagList" hidden></picker>
+  </view>
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">可选标签
+    </view>
+    <view class="action flex flex-wrap">
+      <picker  wx:for="{{tags}}" bindchange="tagChange" data-index="{{index}}" range-key="label" range="{{item.choose}}">
+        {{item.title}}<text class="cuIcon-right"></text>
+      </picker>
+    </view>
+  </view>
+
   <picker hidden name="certificates" value="{{formData.certificates}}"></picker>
   <checkbox-group class="block" name="types" bindchange="CheckboxChange">
     <view class="cu-form-group margin-top">
@@ -75,7 +103,7 @@
     <!-- #ifndef MP-ALIPAY -->
     <view class="cu-form-group">
       <view class="title">日常照护</view>
-      <radio class='round blue' name="types" value="0"></radio>
+      <checkbox class='round blue' name="types" value="0"></checkbox>
     </view>
     <view class="cu-form-group">
       <view class="title">居家康健</view>
@@ -86,7 +114,7 @@
       <checkbox class='round blue' name="types" value="2"></checkbox>
     </view>
   </checkbox-group>
-  <view class="cu-bar bg-white solid-bottom">
+  <view class="cu-bar bg-white solid-bottom margin-top">
     <view class="action">
       个人证书
     </view>
@@ -94,7 +122,7 @@
       <text class="cuIcon-add text-blue text-bold" bind:tap="addCertificate" data-name='certificate'></text>
     </view>
   </view>
-  
+
 
   <view class="cu-form-group">
     <view class="grid col-2 grid-square flex-sub margin-top">
@@ -105,7 +133,7 @@
           <view class="cu-btn sm bg-green radius" data-index="{{index}}" catchtap="editCertificate">
             <text class="cuIcon-edit"></text>
           </view>
-          <view class="cu-btn sm bg-red margin-left-xs radius" data-index="{{index}}" catchtap="removeCertificate">
+          <view class="cu-btn sm bg-red margin-left-xs radius" data-index="{{index}}" data-type="certificates" catchtap="remove">
             <text class="cuIcon-delete"></text>
           </view>
         </view>
@@ -145,6 +173,60 @@
         </view>
       </view>
 
+    </view>
+  </form>
+
+</view>
+
+<view class="cu-modal {{modaltag?'show':''}}">
+  <form bindsubmit="submitTag">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">个人标签添加</view>
+      </view>
+      <view class="">
+        <view class="cu-form-group">
+          <text class="title" decode>标签名称</text>
+          <input class="text-left" placeholder="标签名称" name="title" value="{{certificate.title}}"></input>
+        </view>
+        
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-grey text-grey" bindtap="modalStatus" data-name="tag">取消</button>
+          <button class="cu-btn bg-green margin-left" form-type="submit">确定</button>
+        </view>
+      </view>
+
+    </view>
+  </form>
+
+</view>
+
+<view class="cu-modal {{modalcertificate?'show':''}}">
+  <form bindsubmit="submitCertificate">
+    <input hidden name="index" value='{{certificate.index}}'></input>
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">证书编辑</view>
+      </view>
+      <view class="">
+        <view class="cu-form-group">
+          <text class="title" decode>证书名称</text>
+          <input class="text-left" placeholder="证书名称" name="title" value="{{certificate.title}}"></input>
+        </view>
+        <view class="cu-form-group solids-bottom">
+          <text class="title" decode>证书照片</text>
+          <input class="text-left" data-url="{{certificate.src}}" bindtap="viewImage" placeholder="证书照片" name="src" value="{{certificate.src}}" disabled></input>
+          <button class="cu-btn bg-green shadow sm" bindtap="addPic" data-target="certificate.src">上传</button>
+        </view>
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-grey text-grey" bindtap="modalStatus" data-name="certificate">取消</button>
+          <button class="cu-btn bg-green margin-left" form-type="submit">确定</button>
+        </view>
+      </view>
     </view>
   </form>
 

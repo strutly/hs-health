@@ -33,50 +33,5 @@
 <view class="bg-white">
 </view>
 <tabBar selected="0"></tabBar>
+<auth modalauth="{{modalauth}}" modalorg="{{modalorg}}"></auth>
 
-<view class="cu-modal show" wx:if="{{modalauth}}">
-  <view class="cu-dialog sm">
-    <view class="cu-bar bg-white justify-end">
-      <view class="content">授权提示</view>
-    </view>
-    <view class="padding-xl text-left">
-      《健康照护师》小程序需要匹配当前手机号是否与本平台信息一致，确认授权后，系统将为通过验证的内部人员开放对应专业服务权限。
-      <view class="text-center margin-top-sm">请点击<text class="text-main"> 确认 </text>进行手机号授权</view>
-    </view>
-
-    <view class="cu-bar bg-white justify-end">
-      <view class="action">
-        <button class="cu-btn line-gray text-gray" bindtap="modalStatus" data-name="auth">取消</button>
-        <button class="cu-btn bg-main margin-left" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">确定</button>
-        <button class="cu-btn bg-orange margin-left" bind:tap="reg">注册</button>
-      </view>
-    </view>
-  </view>
-</view>
-
-<view class="cu-modal show" wx:if="{{modalorg}}">
-  <form bindsubmit="bindOrg">
-
-    <view class="cu-dialog sm">
-      <view class="cu-bar bg-white justify-end">
-        <view class="content">选择挂靠机构</view>
-      </view>
-      <view class="text-left">
-        <view class="cu-form-group">
-          <text class="title" decode>挂靠机构</text>
-          <picker bindchange="pickerChange" data-type="orgIndex" range-key="title" name="agencyOrgId" value="{{orgs[formData.orgIndex].id}}" range="{{orgs}}">
-            <view class="picker text-left">
-              {{formData.orgIndex!=null?orgs[formData.orgIndex].title:'请选择挂靠机构'}}
-            </view>
-          </picker>
-        </view>
-      </view>
-      <view class="cu-bar bg-white justify-end">
-        <view class="action">
-          <button class="cu-btn line-gray text-gray" bindtap="modalStatus" data-name="org">取消</button>
-          <button class="cu-btn bg-main margin-left" form-type="submit">挂靠</button>
-        </view>
-      </view>
-    </view>
-  </form>
-</view>
