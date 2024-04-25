@@ -9,6 +9,7 @@ CustomPage({
     num:0,
     homeData:{messageNum:0},
     sexArr:['请选择性别','男','女'],
+    levelArr:["","","Ⅱ","Ⅲ","Ⅳ","Ⅴ"],
     educationArr:['初中','中专','大专','高中','本科','研究生','博士','其他'],
 
   },

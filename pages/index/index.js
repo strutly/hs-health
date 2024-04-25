@@ -1,7 +1,5 @@
-const app = getApp()
 var that;
 import Api from '../../config/api';
-import Util from '../../utils/util';
 import CustomPage from '../../CustomPage';
 CustomPage({
   data: {
@@ -30,8 +28,7 @@ CustomPage({
   onReady() {
     console.log("ready");
     
-  },
-  
+  },  
   getHomeData() {
     Api.homeData().then(res => {
       that.setData({
@@ -51,28 +48,4 @@ CustomPage({
       }
     })
   },
-  
-  
-
-  async bindOrg(e) {
-    console.log(e);
-    let data = e.detail.value;
-    if (data.agencyOrgId) {
-      wx.removeStorageSync('code');
-      let code = await Api.getCode();
-      data.code = code;
-      Api.caregiverBindOrg(JSON.stringify(data)).then(res => {
-        console.log(res);
-        that.showTips("申请挂靠成功,请等待机构审核", "success");
-        app.globalData.status = { code: res.code, msg: res.msg, login: (res.data ? res.data.login : false), auth: (res.data ? res.data.auth : false) };
-        that.setData({
-          modalorg: false
-        })
-      }, err => {
-        console.log(err);
-        that.showTips(err.msg);
-      })
-    }
-  }
-
 })

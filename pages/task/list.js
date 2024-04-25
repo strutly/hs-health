@@ -8,7 +8,7 @@ CustomPage({
     bgs:['bg-green','bg-red','bg-grey'],
     statusArr:[{title:'是',value:1},{title:'否',value:2}],
     navs:[{title:'全部',status:''},{title:'待确认',status:0},{title:'已同意',status:1},{title:'已拒绝',status:2}],
-    appointments:[],
+    records:[],
     today:Util.formatTime(new Date(),'yyyy-MM-dd')
   },
   onLoad(options) {
@@ -18,6 +18,7 @@ CustomPage({
     })
   },
   onShow() {
+    console.log(1)
     that.getList(Util.formatTime(that.data.startDate,'yyyy-MM-dd'));
   },
   getList(startDate){
@@ -27,7 +28,8 @@ CustomPage({
         records:res.data
       })
     },err=>{
-      console.log(err)
+      console.log(err);
+      that.showTips(err.msg);
     });
   },
   dayChange(e){
@@ -40,8 +42,5 @@ CustomPage({
       startDate:Util.formatTime(date,'yyyy-MM-dd')
     })
     that.getList(Util.formatTime(date,'yyyy-MM-dd'));
-  },
-  onShow() {
-
-  },
+  }
 })
