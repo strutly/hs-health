@@ -17,6 +17,7 @@ CustomPage({
       if(value.login && value.auth){
         that.getHomeData();
       }else if(!value.auth){
+        that.showTips(value.msg);
         that.setData({
           modalauth:true
         })

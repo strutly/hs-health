@@ -6,7 +6,7 @@ App({
       console.log(res);
       setTimeout(function () {
         that.globalData.login = true;
-        that.globalData.status = {code:res.code, msg:res.msg,login: (res.data?res.data.login:false), auth: (res.data?res.data.auth:false)};
+        that.globalData.status = {code:res.code, msg:res.data?res.data.msg:res.msg,login: (res.data?res.data.login:false), auth: (res.data?res.data.auth:false)};
       }, 100);
     },err=>{
       console.log(err);
@@ -20,6 +20,7 @@ App({
   watch(method) {
     var obj = this.globalData;
     if (obj.login) {
+      console.log("已经登录成功了")
       method(obj.status);
     } else {
       Object.defineProperty(obj, 'status', {
@@ -31,6 +32,7 @@ App({
         },
         get: function () {
           console.log(this);
+
           return this._status;
         }
       })

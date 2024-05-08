@@ -37,6 +37,7 @@
   "networkTimeout": {
     "request": 30000
   },
+  "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json",
   "requiredPrivateInfos": [
     "choosePoi",
