@@ -1,0 +1,8 @@
+/* pages/index/statistics.wxss */
+page{
+	background-color: var(--white);
+}
+.canvas {
+  width: 100vw;
+  height: 600rpx;
+}

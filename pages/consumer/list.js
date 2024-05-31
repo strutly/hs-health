@@ -17,6 +17,7 @@ CustomPage({
    */
   onReady() {
     that.getList();
+    that.showTips("用户信息左滑,进行评论","info")
   },
 
   /**

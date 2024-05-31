@@ -67,7 +67,7 @@
       备注
     </view>
     <view class="action">
-      {{consumer.notes}}
+      {{consumer.notes||'无'}}
     </view>
   </view>
   <view class="cu-item">

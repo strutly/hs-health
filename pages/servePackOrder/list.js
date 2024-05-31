@@ -19,7 +19,14 @@ CustomPage({
     })
   },
   onReady() {
-    that.getList();
+    getApp().watch(function (value) {
+      console.log(value)
+      if(value.login && value.auth){
+        that.getList();
+      }else{
+        that.showTips(value.msg)
+      }     
+    })   
   },
   getList(){
     Api.servePackOrderCallback().then(res=>{

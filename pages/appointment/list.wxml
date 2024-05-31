@@ -25,7 +25,7 @@
         <span class="cu-tag {{bgs[appointment.status]}} round">{{['待确认','已确认','已取消','已过期'][appointment.status]}}</span>
       </view>
     </view>
-    <view class="cu-item arrow" data-handle="toUrl" data-href="/mobile/page/servePack/detail?id={{appointment.servePack.id}}">
+    <view class="cu-item arrow" bind:tap="toUrl" data-url="/pages/servePack/detail?id={{appointment.servePack.id}}">
       <view class="content">
         <image src="{{appointment.servePack.coverImg}}" style="width: 20px;height: 20px;" ></image> 套餐名称
       </view>
@@ -33,7 +33,7 @@
         {{appointment.servePack.title}}
       </view>
     </view>
-    <view class="cu-item arrow" data-handle="toUrl" data-href="/mobile/page/consumer/edit?id={{appointment.consumer.id}}">
+    <view class="cu-item arrow"  bind:tap="toUrl" data-url="/pages/consumer/detail?id={{appointment.consumer.id}}">
       <view class="content">
         照护对象
       </view>

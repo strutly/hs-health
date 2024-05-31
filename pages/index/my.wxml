@@ -13,6 +13,7 @@
     <text class="cuIcon-right"></text>
   </view>
 </view>
+
 <view class="cu-list menu margin-top">
   <view class="cu-item ">
     <view class="content">
@@ -41,7 +42,7 @@
       收入管理
     </view>
   </view>
-  <view class="cu-item arrow">
+  <view class="cu-item arrow" bind:tap="toUrl" data-url="/pages/index/statistics">
     <view class="content">
       <text class="cuIcon-rank"></text>
       统计信息

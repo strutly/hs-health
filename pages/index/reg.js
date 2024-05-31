@@ -196,11 +196,8 @@ CustomPage({
   async getPhoneNumber(e){
     console.log(e);
     if (e.detail.errMsg === "getPhoneNumber:ok") {
-      let code = await Api.getCode();
       Api.getPhoneNumber({
-        encryptedData: e.detail.encryptedData,
-        code: code,
-        iv: e.detail.iv
+        code: e.detail.code
       }).then(res=>{
         console.log("success",res);
         that.setData({

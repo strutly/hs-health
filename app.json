@@ -12,12 +12,13 @@
     "pages/calendar/index",
     "pages/index/info",
     "pages/consumer/list",
-    "pages/consumer/form"
+    "pages/consumer/form",
+    "pages/index/statistics"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "健康照护师",
+    "navigationBarTitleText": "春天照护",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
